@@ -1,0 +1,74 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+  /* Make the image fully responsive */
+  .carousel-inner img {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+<main role="main">
+
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3" [innerHTML]="this.usersService.helloUser()"></h1>
+      <p>CellStore is one of a kind cells company. Our goal is to provide our customers the best Smartphones for the
+        best PRICE. Hope you’ll have fun and buy your next Smartphone here. In any problem don’t afraid to contact us !
+      </p>
+      <p><a class="btn btn-primary btn-lg" routerLink="/contact" role="button">Contact</a></p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="text-center">
+      <h2>Products of the week</h2>
+      <div class="row">
+        <div class="col border text-center" style="margin: 10px;" *ngFor="let product of this.weekProducts">
+          <img class="card-img-top img-fluid" src="/assets/{{product.imageURL}}" [alt]="product.Name">
+          <div class="card-body">
+            <h5 class="card-title">{{product.Name}}</h5>
+            <div *ngIf="product.Discount > 0; else noDiscount">
+                <h6><span class="discount">{{product.Price}}$</span> {{product.Price*(1-(product.Discount/100)) | number: '1.2'}}$</h6>
+            </div>
+            <ng-template #noDiscount>
+              <h6>{{product.Price}}$</h6>
+            </ng-template>
+          </div>
+          <div class="card-body">
+            <a class="btn btn-primary" style="margin: 5px;"
+              [routerLink]="['/products', this.productsService.getBrandOfProductBySerial(product.Serial).name, product.Serial]">More
+              Details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center">
+      <h2>Newest Products</h2>
+      <div class="row">
+        <div class="col border text-center" style="margin: 10px;" *ngFor="let product of this.newProducts">
+          <img class="card-img-top img-fluid" src="/assets/{{product.imageURL}}" [alt]="product.Name">
+          <div class="card-body">
+            <h5 class="card-title">{{product.Name}}</h5>
+            <div *ngIf="product.Discount > 0; else noDiscount">
+                <h6><span class="discount">{{product.Price}}$</span> {{product.Price*(1-(product.Discount/100)) | number: '1.2'}}$</h6>
+            </div>
+            <ng-template #noDiscount>
+              <h6>{{product.Price}}$</h6>
+            </ng-template>
+          </div>
+          <div class="card-body">
+            <a class="btn btn-primary" style="margin: 5px;"
+              [routerLink]="['/products', this.productsService.getBrandOfProductBySerial(product.Serial).name, product.Serial]">More
+              Details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+  </div> <!-- /container -->
+
+</main>

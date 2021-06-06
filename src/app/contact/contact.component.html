@@ -1,0 +1,70 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<section class="Material-contact-section section-padding section-dark">
+  <div class="container">
+    <div class="row">
+      <!-- Section Titile -->
+      <div class="col-md-12 wow animated fadeInLeft" data-wow-delay=".2s">
+        <h1 class="section-title">Love to Hear From You</h1>
+      </div>
+    </div>
+    <div class="row">
+      <!-- Section Titile -->
+      <div class="col-md-6 mt-3 contact-widget-section2 wow animated fadeInLeft" data-wow-delay=".2s">
+        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking
+          at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as
+          opposed to using Content.</p>
+
+        <div class="find-widget">
+          Company: <a routerLink="/home">CellStore</a>
+        </div>
+        <div class="find-widget">
+          Address: <a href="https://waze.com/ul/hsvc55pgju">Karmiel</a>
+        </div>
+        <div class="find-widget">
+          Phone: <a href="#">+972-3872653</a>
+        </div>
+      </div>
+      <!-- contact form -->
+      <div class="col-md-6 wow animated fadeInRight" data-wow-delay=".2s">
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="shake" id="contactForm" name="contact-form">
+          <!-- Name -->
+          <div class="form-group label-floating">
+            <label class="control-label" for="name">Name</label>
+            <input class="form-control" id="name" type="text" name="name" required formControlName="name">
+            <div class="help-block with-errors"></div>
+          </div>
+          <!-- email -->
+          <div class="form-group label-floating">
+            <label class="control-label" for="email">Email</label>
+            <input class="form-control" id="email" type="email" name="email" required
+              formControlName="email">
+            <div class="help-block with-errors"></div>
+          </div>
+          <!-- Subject -->
+          <div class="form-group label-floating">
+            <label class="control-label">Subject</label>
+            <input class="form-control" id="msg_subject" type="text" name="subject" required
+            formControlName="subject">
+            <div class="help-block with-errors"></div>
+          </div>
+          <!-- Message -->
+          <div class="form-group label-floating">
+            <label for="message" class="control-label">Message</label>
+            <textarea class="form-control" rows="3" id="message" name="message" required
+            formControlName="message"></textarea>
+            <div class="help-block with-errors"></div>
+          </div>
+          <!-- Form Submit -->
+          <div class="form-submit mt-5">
+            <button [disabled]="!contactForm.valid" class="btn btn-common" type="submit" id="form-submit"><i
+                class="material-icons mdi mdi-message-outline"></i> Send Message</button>
+            <div id="msgSubmit" class="h3 text-center hidden"></div>
+            <div class="clearfix"></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

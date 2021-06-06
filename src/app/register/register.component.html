@@ -1,0 +1,27 @@
+<br/>
+<div class="form-group">
+    <h1>Register</h1>
+    <br/>
+    <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)" novalidate (change)="onChange($event)">
+        <div class="form-group row">
+            <label for="name" class="col-sm-1 col-form-label">Name</label>
+            <div class="col-sm-3">
+                <input type="name" class="form-control"  id="name" name="name" placeholder="Name" ngModel required #name="ngModel">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="email" class="col-sm-1 col-form-label">Email</label>
+            <div class="col-sm-3">
+                <input type="email" class="form-control"  id="email" name="email" placeholder="Email" ngModel required email #email="ngModel">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="password" class="col-sm-1 col-form-label">Password</label>
+            <div class="col-sm-3">
+                <input type="password" class="form-control" name="password" placeholder="Password" ngModel required password #password="ngModel" minlength="6" >
+            </div>
+        </div>
+        <br/><button type="submit" class="btn btn-primary" [disabled]="!registerForm.valid">Register</button>
+        <small *ngIf="this.isFailed" style="color:red">Email is used.</small>
+    </form>
+</div>

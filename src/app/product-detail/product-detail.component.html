@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col-md-4 mb-1 mb-md-3">
+      <img height="500px" src="/assets/{{product.imageURL}}" alt="{{product.Name}}">
+  </div>
+  <div class="col-xl-6">
+    <h5>{{product.Name}}</h5>
+    <p class="mb-2 text-muted text-uppercase small" [innerHTML]="brand.name"></p>
+    <div *ngIf="product.Discount > 0; else noDiscount">
+      <h6><span class="discount mr-1">{{product.Price}}$</span> {{product.getPrice()}}$</h6>
+    </div>
+    <ng-template #noDiscount>
+      <h6 class="mr-1">{{product.Price}}$</h6>
+    </ng-template>
+    <p class="pt-1">{{product.Description}}</p>
+    <hr>
+    <div class="table-responsive mb-2">
+      <table class="table table-sm table-borderless">
+        <tbody>
+          <tr>
+            <td class="pl-0 pb-0 w-25">Quantity</td>
+          </tr>
+          <tr>
+            <td class="pl-0">
+              <div class="mb-0">
+                <div class="quantity">
+                  <div class="input-group">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" (click)="stepDown()" type="button">-</button>
+                    </span>
+                    <input type="number" min="1" max="99" [(ngModel)]="quantity" class="text-center" style="display: block;" disabled/>
+                    <span class="input-group-btn"><button class="btn btn-default bootstrap-touchspin-up" (click)="stepUp()" type="button">+</button></span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button type="button" class="btn btn-primary btn-md mr-1 mb-2" (click)="addToCart(product.Serial)"><i class="bi bi-cart-plus"></i>Add to
+      cart</button>
+  </div>
+</div>

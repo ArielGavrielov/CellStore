@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { UsersService } from './users.service';
+
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'CellStore';
+  userActive;
+  constructor(private usersService : UsersService) { }
+
+  ngOnInit(): void {
+    this.userActive = this.usersService.getLoggedUser();
+  }
 }
