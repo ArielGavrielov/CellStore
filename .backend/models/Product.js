@@ -1,20 +1,20 @@
 const mongoose = require('mongoose');
 let Product = new mongoose.Schema(
     {
-        Serial:{
+        serial:{
             type: String,
             unique: true,
             required: true
         },
-        Name: {
+        name: {
             type: String,
             required: true
         },
-        Price: {
+        price: {
             type: Number,
             required: true
         },
-        Description: {
+        description: {
             type: String,
             required: true
         },
@@ -22,9 +22,8 @@ let Product = new mongoose.Schema(
             type: String,
             required: true
         },
-        Discount: {
-            type: Number,
-            required: true
+        discount: {
+            type: Number
         }
     },
     {

@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
+import { ApiService } from './api-service.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
+
+  constructor(private api: ApiService) {}
+
   Users : User[] = [
-    new User("Ariel", "ariel@gmail.com", "123456", true),
-    new User("Mor", "mor@gmail.com", "123456", true)
+    new User("Ariel", "ariel@gmail.com", "123456"),
+    new User("Mor", "mor@gmail.com", "123456")
   ];
   loggedUser : User;
 
@@ -14,14 +18,20 @@ export class UsersService {
     return this.Users;
   }
 
-  addUser(name: string, email: string, password: string) : User {
-    for(let user of this.Users)
-      if(user.email == email) return null;
-
-    return this.Users[this.Users.push(new User(name,email,password, false))-1];
+  addUser(name: string, email: string, password: string) {
+    let a = this.api.registerUser({name, email, password});
+    a.subscribe(data => {
+      console.log("data");
+    }, error => {
+      console.log("error");
+      return null;
+    }, () => {
+      console.log("yay");
+      return new User(name, email, password);
+    });
   }
 
-  setLoggedUser(user: User) {
+  setLoggedUser(user) {
     this.loggedUser = user;
   } 
   getLoggedUser() {
@@ -46,13 +56,11 @@ export class User {
   name: string;
   email: string;
   password: string;
-  isAdmin: boolean;
 
-  constructor(name : string, email : string, password : string, isAdmin : boolean) {
+  constructor(name : string, email : string, password : string) {
     this.name = name;
     this.email = email;
     this.password = password;
-    this.isAdmin = isAdmin;
   }
   
 

@@ -1,4 +1,4 @@
-import { Product } from './products.service';
+import { Product } from './sevices/products.service';
 
 export class Item {
     product : Product;

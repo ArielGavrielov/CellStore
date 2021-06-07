@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UsersService } from '../users.service';
+import { ApiService } from '../sevices/api-service.service';
+import { User, UsersService } from '../sevices/users.service';
 
 @Component({
   selector: 'app-register',
@@ -8,8 +9,9 @@ import { UsersService } from '../users.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  isFailed : boolean = false;
-  constructor(private usersService : UsersService, private router : Router) { }
+  emailError: String = null;
+  error: String = null;
+  constructor(private apiService : ApiService, private usersService : UsersService, private router : Router) { }
 
   ngOnInit(): void {
     if(this.usersService.getLoggedUser() != null) {
@@ -28,11 +30,33 @@ export class RegisterComponent implements OnInit {
       element.target.classList.remove('is-valid');
     }
   }
-onSubmit(registerForm) {
-  const user = this.usersService.addUser(registerForm.value.name, registerForm.value.email, registerForm.value.password);
-  if(user == null) { this.isFailed = true; return; }
-  this.usersService.setLoggedUser(user);
-  this.router.navigate(['/home']);
-}
 
+  checkEmail = function(element) {
+    if(element.target.classList.contains('is-valid')) {
+      this.apiService.getUser(element.target.value).subscribe(data => {
+        if(data.length != 0) {
+          element.target.classList.add('is-invalid');
+          element.target.classList.remove('is-valid');
+          this.emailError = "Email is used.";
+        }
+        else {
+          this.emailError = null;
+        }
+      });
+    }
+  }
+
+  onSubmit(registerForm) {
+    let userScheme = new User(registerForm.value.name, registerForm.value.email, registerForm.value.password);
+    this.apiService.registerUser(userScheme).subscribe(data => {
+      console.log("data");
+    }, error => {
+      console.log(error.error.text);
+      this.error = error.error.text;
+      return;
+    }, () => {
+      this.usersService.setLoggedUser(userScheme);
+      this.router.navigate(['/home']);
+    });
+  }
 }

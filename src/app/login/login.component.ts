@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersService } from '../users.service';
+import { User, UsersService } from '../sevices/users.service';
 import { Router } from '@angular/router';
+import { ApiService } from '../sevices/api-service.service';
 
 @Component({
   selector: 'app-login',
@@ -8,17 +9,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  users = [];
-  userNotFound : boolean = false;
-  constructor(private usersService : UsersService, private router : Router) { }
+  userNotFound : Boolean;
+  constructor(private apiService: ApiService, private usersService : UsersService, private router : Router) { }
 
   ngOnInit(): void {
     if(this.usersService.getLoggedUser() != null) {
       this.router.navigate(['/home']);
       return;
     }
-    this.users = this.usersService.getUsers();
-    console.log(this.users);
   }
 
   onChange(element) {
@@ -33,14 +31,15 @@ export class LoginComponent implements OnInit {
     }
   }
   onSubmit(loginForm) {
-    for(let user of this.users) {
-      if(user.email == loginForm.value.email && user.password == loginForm.value.password) {
-        this.usersService.setLoggedUser(user);
+    this.apiService.loginUser({email: loginForm.value.email, password: loginForm.value.password})
+    .subscribe(data => {
+      if(data.length == 0) this.userNotFound = true;
+      else {
+        this.usersService.setLoggedUser(new User(data[0].name, data[0].email, data[0].password));
         this.router.navigate(['/home']);
         this.userNotFound = false;
         return;
       }
-    }
-    this.userNotFound = true;
+    });
   }
 }
