@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-let Product = new mongoose.Schema(
+const Product = new mongoose.Schema(
     {
         serial:{
             type: String,

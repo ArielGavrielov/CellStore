@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from './users.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +19,7 @@ export class ApiService {
     return this.http.get(this.baseURL + this.users + email, {headers: this.headers});
   }
 
-  registerUser(user: User): Observable<any> {
+  registerUser(user): Observable<any> {
     let body = JSON.stringify(user);
     return this.http.post(this.baseURL + this.users + "register", body, {
       headers: this.headers
@@ -35,5 +34,18 @@ export class ApiService {
   }
 
   // PRODUCTS API //
+  getProduct(serial?: string): Observable<any> {
+    // returns specific product;
+    if(serial)
+      return this.http.get(this.baseURL + this.products + "get" + serial, { headers: this.headers});
+    // returns all products;
+    return this.http.get(this.baseURL + this.products, { headers: this.headers});
+  }
 
+  createProduct(product) {
+    let body = JSON.stringify(product);
+    return this.http.post(this.baseURL + this.products + "create", body, {
+      headers: this.headers
+    });
+  } 
 }

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ApiService } from './api-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -53,7 +54,16 @@ export class ProductsService {
 
     return all;
   }
-  constructor() { }
+  constructor(private apiService: ApiService) {
+    for(let brand of this.Brands)
+      for(let product of brand.products) {
+        this.apiService.createProduct({serial: product.Serial, name: product.Name, price: product.Price, description: product.Description, imageURL: product.imageURL, discount: product.Discount}).subscribe(data => {
+          console.log(data);
+        }, error => {
+          console.log(error);
+        })
+      }
+  }
 }
 
 export class Product {

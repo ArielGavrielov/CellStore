@@ -11,14 +11,14 @@ router.post("/register", (req,res) => {
 });
 
 router.post("/login", (req,res) => {
-    User.find({email: req.body.email, password: req.body.password}, (error, data) => {
+    User.findOne({email: req.body.email, password: req.body.password}, (error, data) => {
         if(error) res.send({error: error.toString()});
         else res.json(data);
     });
 });
 
 router.get("/:email", (req,res) => {
-    User.find({email: req.params.email}, (error,data) => {
+    User.findOne({email: req.params.email}, (error,data) => {
         if(error) res.send({error: error.toString()});
         else res.send(data);
     });
