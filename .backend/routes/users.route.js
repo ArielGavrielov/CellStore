@@ -1,7 +1,13 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const router = express.Router();
 
 let User = require('../models/User');
+
+const getToken = (params) => {
+    const token = jwt.sign(params, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
+    return token;
+}
 
 router.post("/register", (req,res) => {
     User.create(req.body, (error, data) => {

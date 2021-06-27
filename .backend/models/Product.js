@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+var idValidator = require('mongoose-id-validator');
+
 const Product = new mongoose.Schema(
     {
         serial:{
@@ -24,6 +26,10 @@ const Product = new mongoose.Schema(
         },
         discount: {
             type: Number
+        },
+        brand: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'brands'
         }
     },
     {
@@ -31,4 +37,5 @@ const Product = new mongoose.Schema(
     }
 );
 
+Product.plugin(idValidator);
 module.exports = mongoose.model("products",Product);

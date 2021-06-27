@@ -8,10 +8,7 @@ export class UsersService {
 
   constructor(private api: ApiService) {}
 
-  Users : User[] = [
-    new User("Ariel", "ariel@gmail.com", "123456"),
-    new User("Mor", "mor@gmail.com", "123456")
-  ];
+  Users : User[] = [];
   loggedUser : User;
 
   getUsers() {
@@ -33,8 +30,11 @@ export class UsersService {
 
   setLoggedUser(user) {
     this.loggedUser = user;
+    localStorage.setItem("loggedUser", JSON.stringify(user));
   } 
   getLoggedUser() {
+    if(this.loggedUser) return this.loggedUser;
+    if(localStorage.getItem("loggedUser")) this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
     return this.loggedUser;
   }
 

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-var idValidator = require('mongoose-id-validator');
 
 let Brand = new mongoose.Schema(
     {
@@ -11,13 +10,12 @@ let Brand = new mongoose.Schema(
         url: {
             type: String,
             required: true
-        },
-        products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'products' }]
+        }
     },
     {
         collection: "brands"
     }
 );
 
-Brand.plugin(idValidator);
+
 module.exports = mongoose.model("brands", Brand);

@@ -24,8 +24,7 @@ export class LoginComponent implements OnInit {
     if(element.target.classList.contains('ng-valid')) {
       element.target.classList.remove('is-invalid');
       element.target.classList.add('is-valid');
-    }
-    else if(element.target.classList.contains('ng-invalid')) {
+    } else if(element.target.classList.contains('ng-invalid')) {
       element.target.classList.add('is-invalid');
       element.target.classList.remove('is-valid');
     }
@@ -35,7 +34,7 @@ export class LoginComponent implements OnInit {
     .subscribe(data => {
       if(data.length == 0) this.userNotFound = true;
       else {
-        this.usersService.setLoggedUser(new User(data[0].name, data[0].email, data[0].password));
+        this.usersService.setLoggedUser(new User(data.name, data.email, data.password));
         this.router.navigate(['/home']);
         this.userNotFound = false;
         return;

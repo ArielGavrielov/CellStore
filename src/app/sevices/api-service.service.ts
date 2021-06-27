@@ -9,6 +9,8 @@ export class ApiService {
   baseURL: string = "http://localhost:8000/api/"
   users: string = "users/"
   products: string = "products/"
+  brands: string = "brands/"
+
   headers = {
     "content-type": "application/json"
   }
@@ -37,9 +39,13 @@ export class ApiService {
   getProduct(serial?: string): Observable<any> {
     // returns specific product;
     if(serial)
-      return this.http.get(this.baseURL + this.products + "get" + serial, { headers: this.headers});
+      return this.http.get(this.baseURL + this.products + "get/" + serial, { headers: this.headers});
     // returns all products;
     return this.http.get(this.baseURL + this.products, { headers: this.headers});
+  }
+
+  getProductByBrand(brand: string): Observable<any> {
+    return this.http.get(this.baseURL + this.products + "get/all/" + brand, {headers: this.headers});
   }
 
   createProduct(product) {
@@ -47,5 +53,11 @@ export class ApiService {
     return this.http.post(this.baseURL + this.products + "create", body, {
       headers: this.headers
     });
-  } 
+  }
+
+  // BRANDS API //
+  getBrand(name?: string): Observable<any> {
+    if(name) return this.http.get(this.baseURL + this.brands + name, {headers: this.headers});
+    return this.http.get(this.baseURL + this.brands, {headers: this.headers});
+  }
 }

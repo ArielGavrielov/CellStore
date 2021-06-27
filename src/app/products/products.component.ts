@@ -22,6 +22,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.Brands = this.productsService.getBrands();
     this.allProducts = this.productsService.getAllProducts();
 
+
+
     this.sub = this.actRoute.params.subscribe(params => {
       console.log(params["brand"])
       if(params["brand"] != undefined && !params["brand"].includes("all")) {

@@ -17,6 +17,5 @@ export class HomeComponent implements OnInit {
       this.weekProducts.push(this.productsService.getProductBySerial(serial));
     for(let serial of this.productsService.newProducts)
       this.newProducts.push(this.productsService.getProductBySerial(serial));
-    console.log(this.weekProducts);
   }
 }

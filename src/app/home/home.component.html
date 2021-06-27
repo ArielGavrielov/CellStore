@@ -58,7 +58,7 @@
               <h6>{{product.Price}}$</h6>
             </ng-template>
           </div>
-          <div class="card-body">
+          <div class="card-body" style="float:left">
             <a class="btn btn-primary" style="margin: 5px;"
               [routerLink]="['/products', this.productsService.getBrandOfProductBySerial(product.Serial).name, product.Serial]">More
               Details</a>
