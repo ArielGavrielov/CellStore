@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-var idValidator = require('mongoose-id-validator');
+const idValidator = require('mongoose-id-validator');
 
 const Product = new mongoose.Schema(
     {

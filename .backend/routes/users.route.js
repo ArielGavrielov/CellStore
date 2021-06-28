@@ -11,21 +11,21 @@ const getToken = (params) => {
 
 router.post("/register", (req,res) => {
     User.create(req.body, (error, data) => {
-        if(error) res.send({error: error.toString()});
+        if(error) res.status(400).send({error: error.toString()});
         else res.send(data);
     });
 });
 
 router.post("/login", (req,res) => {
     User.findOne({email: req.body.email, password: req.body.password}, (error, data) => {
-        if(error) res.send({error: error.toString()});
+        if(error) res.status(400).send({error: error.toString()});
         else res.json(data);
     });
 });
 
 router.get("/:email", (req,res) => {
     User.findOne({email: req.params.email}, (error,data) => {
-        if(error) res.send({error: error.toString()});
+        if(error) res.status(400).send({error: error.toString()});
         else res.send(data);
     });
 });

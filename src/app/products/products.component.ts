@@ -18,14 +18,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
   constructor(private cartService : CartService, private router : Router, public productsService : ProductsService, private actRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    console.log(this.cartService.items);
     this.Brands = this.productsService.getBrands();
     this.allProducts = this.productsService.getAllProducts();
 
-
-
     this.sub = this.actRoute.params.subscribe(params => {
-      console.log(params["brand"])
       if(params["brand"] != undefined && !params["brand"].includes("all")) {
         this.currentBrand = this.Brands.find(Brands => Brands.name == this.actRoute.snapshot.params["brand"]);
   

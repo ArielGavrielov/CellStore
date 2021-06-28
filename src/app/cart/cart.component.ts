@@ -14,7 +14,6 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
     this.Items = this.cartService.items;
-    console.log(this.Items);
   }
 
   changeQuantity(item, n) {

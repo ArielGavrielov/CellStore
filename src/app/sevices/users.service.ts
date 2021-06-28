@@ -18,19 +18,23 @@ export class UsersService {
   addUser(name: string, email: string, password: string) {
     let a = this.api.registerUser({name, email, password});
     a.subscribe(data => {
-      console.log("data");
+      console.log(data);
+      return new User(name, email, password);
     }, error => {
       console.log("error");
       return null;
-    }, () => {
-      console.log("yay");
-      return new User(name, email, password);
     });
   }
 
-  setLoggedUser(user) {
+  async setLoggedUser(user : User) {
     this.loggedUser = user;
-    localStorage.setItem("loggedUser", JSON.stringify(user));
+    if(user != null) {
+      localStorage.setItem("loggedUser", JSON.stringify(user));
+      localStorage.setItem("loggedUserId", await this.api.getUserObjectId(user.email));
+    } else {
+      localStorage.clear();
+    }
+    console.log("loggeduser id", localStorage.getItem("loggedUserId"));
   } 
   getLoggedUser() {
     if(this.loggedUser) return this.loggedUser;

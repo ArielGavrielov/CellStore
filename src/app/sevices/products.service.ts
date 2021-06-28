@@ -87,7 +87,9 @@ export class Product {
   }
 
   static buildProduct(obj) {
-    return new Product(obj.Serial, obj.Name,obj.Price, obj.Description, obj.imageURL, obj.Discount > 0 ? obj.Discount : 0)
+    if(obj.name) // came from db;
+      return new Product(obj.serial, obj.name, obj.price, obj.description, obj.imageURL, obj.discount > 0 ? obj.discount : 0)
+    return new Product(obj.Serial, obj.Name, obj.Price, obj.Description, obj.imageURL, obj.Discount > 0 ? obj.Discount : 0);
   } 
 
   getPrice() {

@@ -10,6 +10,7 @@ export class ApiService {
   users: string = "users/"
   products: string = "products/"
   brands: string = "brands/"
+  cart: string = "cart/"
 
   headers = {
     "content-type": "application/json"
@@ -19,6 +20,10 @@ export class ApiService {
   // USER API //
   getUser(email): Observable<any> {
     return this.http.get(this.baseURL + this.users + email, {headers: this.headers});
+  }
+
+  async getUserObjectId(email: string) {
+    return await this.getUser(email).toPromise().then(data => {return data._id});
   }
 
   registerUser(user): Observable<any> {
@@ -44,11 +49,19 @@ export class ApiService {
     return this.http.get(this.baseURL + this.products, { headers: this.headers});
   }
 
+  async getProductObjectId(serial:string) {
+    return await this.getProduct(serial).toPromise().then(data => {return data[0]._id});
+  }
+
+  getProductByObjectId(id:string): Observable<any> {
+    return this.http.get(this.baseURL + this.products + id, { headers: this.headers});
+  }
+
   getProductByBrand(brand: string): Observable<any> {
     return this.http.get(this.baseURL + this.products + "get/all/" + brand, {headers: this.headers});
   }
 
-  createProduct(product) {
+  createProduct(product): Observable<any> {
     let body = JSON.stringify(product);
     return this.http.post(this.baseURL + this.products + "create", body, {
       headers: this.headers
@@ -59,5 +72,21 @@ export class ApiService {
   getBrand(name?: string): Observable<any> {
     if(name) return this.http.get(this.baseURL + this.brands + name, {headers: this.headers});
     return this.http.get(this.baseURL + this.brands, {headers: this.headers});
+  }
+
+  // CART API //
+  getCart() : Observable<any> {
+    return this.http.get(this.baseURL + this.cart + localStorage.getItem("loggedUserId"), {headers: this.headers});
+  }
+
+  async addToCart(productSerial: string, quantity: Number) {
+    return this.http.post(this.baseURL + this.cart, {userId: localStorage.getItem("loggedUserId"), productId: await this.getProductObjectId(productSerial), quantity: quantity}, {headers: this.headers}).toPromise();
+  }
+
+  async deleteFromCart(productSerial?: string) : Promise<any>  {
+      if(productSerial)
+        return this.http.delete(this.baseURL + this.cart + localStorage.getItem("loggedUserId") + "/" + await this.getProductObjectId(productSerial), {headers: this.headers}).toPromise();
+      else
+        return this.http.delete(this.baseURL + this.cart + localStorage.getItem("loggedUserId"), {headers: this.headers}).toPromise();
   }
 }

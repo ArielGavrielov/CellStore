@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const users = require('./routes/users.route');
 const products = require('./routes/products.route');
 const brands = require('./routes/brands.route');
+const cart = require('./routes/cart.route');
 
 // connect to mongodb
 const mongodb = "mongodb://localhost:27017/CellStore";
@@ -23,6 +24,9 @@ app.listen(8000, () => console.log("Server started listening port 8000"));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
+mongoose.set('runValidators', true);
+
 app.use("/api/users", users);
 app.use("/api/products", products);
 app.use("/api/brands", brands);
+app.use("/api/cart", cart);

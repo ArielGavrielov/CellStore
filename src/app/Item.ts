@@ -5,6 +5,11 @@ export class Item {
     quantity : number;
   
     constructor(product : Product, quantity? : number) {this.product = product; this.quantity = quantity ? quantity : 1;}
+
+    static createInstanceFromApi(product: any, quantity: number) : Item {
+      console.log("product inn", product);
+      return new Item(Product.buildProduct(product), quantity);
+    }
   /*
     addProduct(serial: string) : boolean {
       console.log(this.products);

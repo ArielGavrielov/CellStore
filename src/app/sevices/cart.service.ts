@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Item } from '../Item';
+import { ApiService } from './api-service.service';
 import { ProductsService } from './products.service';
 import { User, UsersService } from './users.service';
 
@@ -11,9 +12,22 @@ export class CartService {
   user : User;
   total : number;
 
-  constructor(private productsService : ProductsService, private usersService : UsersService) {
-    console.log(this.productsService.getAllProducts());
+  constructor(private apiService: ApiService, private productsService : ProductsService, private usersService : UsersService) {
     this.user = this.usersService.getLoggedUser();
+    // get user cart from db;
+    this.apiService.getCart().subscribe(data => {
+      for(let item of data) {
+        var product : any;
+        this.apiService.getProductByObjectId(item.productId).toPromise()
+        .then(p => {product = p})
+        .catch(err => console.log(err))
+        .finally(() => {
+          this.items.push(Item.createInstanceFromApi(product, item.quantity));
+          this.updateTotal();
+          console.log("items", this.items);
+        });
+      }
+    });
   }
 
   addProduct(serial: string, quantity? : number) : boolean {
@@ -30,6 +44,10 @@ export class CartService {
           this.items[i].quantity++;
 
         alert(this.items[i].product.Name + " quantity is updated to " + this.items[i].quantity + ".");
+
+        this.apiService.addToCart(serial, this.items[i].quantity)
+        .then(data => console.log(data))
+        .catch(err => console.log(err));
       }
       else alert(this.items[i].product.Name + " is already maximum quantity (" + this.items[i].quantity + ")");
     }
@@ -43,7 +61,11 @@ export class CartService {
         var item = new Item(product);
       
       this.items.push(item);
-      
+
+      this.apiService.addToCart(serial, item.quantity)
+      .then(data => console.log(data))
+      .catch(err => console.log(err));
+
       alert(product.Name + " added to cart. "+ "(quantity: "+item.quantity+")");
     }
     this.updateTotal();
@@ -52,8 +74,11 @@ export class CartService {
 
   changeQuantity(item : Item, n : number) {
     const index: number = this.items.indexOf(item);
-    if(this.items[index].quantity + n >= 1 && this.items[index].quantity + n <= 99)
+    if(this.items[index].quantity + n >= 1 && this.items[index].quantity + n <= 99) {
       this.items[index].quantity += n;
+      this.apiService.addToCart(this.items[index].product.Serial, this.items[index].quantity)
+      .then(res => console.log(res));
+    }
     this.updateTotal();
   } 
 
@@ -63,9 +88,12 @@ export class CartService {
     return -1;
   }
 
-  remove(item) {
+  remove(item : Item) {
     const index: number = this.items.indexOf(item);
     if (index !== -1) {
+      this.apiService.deleteFromCart(this.items[index].product.Serial)
+      .then(data => console.log(data))
+      .catch(err => console.log("delete err", err));
       this.items.splice(index, 1);
       this.updateTotal();
     }  
