@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
       if(data.length == 0) this.userNotFound = true;
       else {
         this.usersService.setLoggedUser(new User(data.name, data.email, data.password));
-        this.router.navigate(['/home']);
+        //this.router.navigate(['/home']);
         this.userNotFound = false;
         return;
       }

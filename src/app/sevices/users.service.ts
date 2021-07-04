@@ -35,6 +35,7 @@ export class UsersService {
       localStorage.clear();
     }
     console.log("loggeduser id", localStorage.getItem("loggedUserId"));
+    window.location.reload();
   } 
   getLoggedUser() {
     if(this.loggedUser) return this.loggedUser;

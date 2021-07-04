@@ -2,6 +2,7 @@ const express = require('express');
 var cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const users = require('./routes/users.route');
 const products = require('./routes/products.route');
@@ -15,10 +16,6 @@ mongoose.connect(mongodb, {useNewUrlParser: true, useCreateIndex: true, useUnifi
 const app = express();
 app.use(cors({origin: 'http://localhost:4200'}));
 
-app.get("/", (req,res) => {
-    res.send("Hello world!");
-});
-
 app.listen(8000, () => console.log("Server started listening port 8000"));
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -30,3 +27,12 @@ app.use("/api/users", users);
 app.use("/api/products", products);
 app.use("/api/brands", brands);
 app.use("/api/cart", cart);
+
+/*
+// front-end
+app.use(express.static(path.join(__dirname, "/dist/CellStore")));
+
+app.get("*", (req,res) => {
+    res.sendFile(path.join(__dirname, "/dist/CellStore/index.html"));
+});
+*/

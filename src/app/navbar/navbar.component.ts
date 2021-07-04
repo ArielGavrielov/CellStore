@@ -15,5 +15,6 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.usersService.setLoggedUser(null);
+    location.reload();
   }
 }

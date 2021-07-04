@@ -1,32 +1,36 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" routerLink="/home">CellStore</a>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto">
-            <ng-container *ngIf="this.usersService.getLoggedUser() != null; else notLogged">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" routerLink="/home">CellStore</a>
+        </div>
+  
+            <ul class="navbar-nav mr-auto">
+                <ng-container *ngIf="this.usersService.getLoggedUser() != null; else notLogged">
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/products" routerLinkActive="activeStyle">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/contact" routerLinkActive="activeStyle">Contact</a>
+                    </li>
+                </ng-container>
+                <ng-template #notLogged>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/login" routerLinkActive="activeStyle">Login</a>
+                    </li>
+                    <li class="nav-item" *ngIf="this.usersService.getLoggedUser() == null">
+                        <a class="nav-link" routerLink="/register" routerLinkActive="activeStyle">Register</a>
+                    </li>
+                </ng-template>
+            </ul>
+            <ul class="navbar-nav ml-auto" *ngIf="this.usersService.getLoggedUser() != null">
+                <span class="navbar-text font-weight-bold" style="padding-right: 20px;" [innerHTML]="this.usersService.helloUser()"></span>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/products" routerLinkActive="activeStyle">Products</a>
+                <a class="nav-link" routerLink="/cart" routerLinkActive="activeStyle"><i class="bi bi-cart"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/contact" routerLinkActive="activeStyle">Contact</a>
+                <a class="nav-link" routerLink="/" (click)="logout()">Logout</a>
                 </li>
-            </ng-container>
-            <ng-template #notLogged>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/login" routerLinkActive="activeStyle">Login</a>
-                </li>
-                <li class="nav-item" *ngIf="this.usersService.getLoggedUser() == null">
-                    <a class="nav-link" routerLink="/register" routerLinkActive="activeStyle">Register</a>
-                </li>
-            </ng-template>
-        </ul>
-        <ul class="navbar-nav ml-auto" *ngIf="this.usersService.getLoggedUser() != null">
-            <span class="navbar-text font-weight-bold" style="padding-right: 20px;" [innerHTML]="this.usersService.helloUser()"></span>
-            <li class="nav-item">
-            <a class="nav-link" routerLink="/cart" routerLinkActive="activeStyle"><i class="bi bi-cart"></i></a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" routerLink="/" (click)="logout()">Logout</a>
-            </li>
-        </ul>
+            </ul>
+
     </div>
   </nav>
