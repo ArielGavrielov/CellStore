@@ -18,10 +18,10 @@ export class UsersService {
   addUser(name: string, email: string, password: string) {
     let a = this.api.registerUser({name, email, password});
     a.subscribe(data => {
-      console.log(data);
+      console.log("register user", data);
       return new User(name, email, password);
     }, error => {
-      console.log("error");
+      console.log("register user error", error);
       return null;
     });
   }

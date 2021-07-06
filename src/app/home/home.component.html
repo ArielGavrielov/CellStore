@@ -30,7 +30,7 @@
           <div class="card-body">
             <h5 class="card-title">{{product.Name}}</h5>
             <div *ngIf="product.Discount > 0; else noDiscount">
-                <h6><span class="discount">{{product.Price}}$</span> {{product.Price*(1-(product.Discount/100)) | number: '1.2'}}$</h6>
+                <h6><span class="discount">{{product.Price}}$</span> {{product.getPrice() | number: '0.0-2'}}$</h6>
             </div>
             <ng-template #noDiscount>
               <h6>{{product.Price}}$</h6>
@@ -38,7 +38,7 @@
           </div>
           <div class="card-body">
             <a class="btn btn-primary" style="margin: 5px;"
-              [routerLink]="['/products', this.productsService.getBrandOfProductBySerial(product.Serial).name, product.Serial]">More
+              [routerLink]="['/products', product.brandName, product.Serial]">More
               Details</a>
           </div>
         </div>
@@ -52,7 +52,7 @@
           <div class="card-body">
             <h5 class="card-title">{{product.Name}}</h5>
             <div *ngIf="product.Discount > 0; else noDiscount">
-                <h6><span class="discount">{{product.Price}}$</span> {{product.Price*(1-(product.Discount/100)) | number: '1.2'}}$</h6>
+                <h6><span class="discount">{{product.Price}}$</span> {{product.getPrice() | number: '.0-2'}}$</h6>
             </div>
             <ng-template #noDiscount>
               <h6>{{product.Price}}$</h6>
@@ -60,7 +60,7 @@
           </div>
           <div class="card-body" style="float:left">
             <a class="btn btn-primary" style="margin: 5px;"
-              [routerLink]="['/products', this.productsService.getBrandOfProductBySerial(product.Serial).name, product.Serial]">More
+              [routerLink]="['/products', product.brandName, product.Serial]">More
               Details</a>
           </div>
         </div>

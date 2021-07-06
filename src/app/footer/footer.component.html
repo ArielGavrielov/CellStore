@@ -12,7 +12,7 @@
   
           <ul class="list-unstyled mb-0">
             <li *ngFor="let brand of brands">
-              <a [href]="brand.url" target="_blank" class="text-dark">{{brand.name}}</a>
+              <a [attr.href]="brand.url" target="_blank" class="text-dark">{{brand.name}}</a>
             </li>
           </ul>
         </div>

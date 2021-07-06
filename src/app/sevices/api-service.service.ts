@@ -57,7 +57,7 @@ export class ApiService {
     return this.http.get(this.baseURL + this.products + id, { headers: this.headers});
   }
 
-  getProductByBrand(brand: string): Observable<any> {
+  getProductByBrand(brand: string) {
     return this.http.get(this.baseURL + this.products + "get/all/" + brand, {headers: this.headers});
   }
 

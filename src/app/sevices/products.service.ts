@@ -24,48 +24,44 @@ export class ProductsService {
 
   getProductBySerial(serial : string) {
     var products = this.getAllProducts();
-
-    for(let product of products)
+    for(let product of products) {
       if(product.Serial == serial)
         return product;
+    }
     return null;
   }
 
   getAllProducts() {
     const all = [];
     for(let brand of this.Brands) 
-      for(let product of brand.products)
+      for(let product of brand.products) {
         all.push(product);
+  }
 
     return all;
   }
 
-  constructor(private apiService: ApiService) {
-    if(!localStorage.getItem("brands") || JSON.parse(localStorage.getItem("brands")).length == 0) {
-      this.apiService.getBrand().toPromise().then(data => {
-        for(let brand of data) {
-          let Products = {};
-          let i = 0;
-          this.apiService.getProductByBrand(brand._id).toPromise().then(next => {
-            for(let product of next) {
-              Products[i++] = new Product(product.serial, product.name, product.price, product.description, product.imageURL, product.discount);
-            }
-          }, error => {console.log("error", error)})
-          .then(value => {
-            this.Brands.push(new Brand(brand.name, brand.url, <Product[]>Products));
-            localStorage.setItem("brands", JSON.stringify(this.Brands));
-          });
-        }
-      }, error => console.log("error = ", error));
-    }
-    else
-      this.Brands = JSON.parse(localStorage.getItem("brands"));
+  parseJsonToBrands(brands) : Brand[] {
+    let res : Brand[] = [];
+    for(let brand of brands) res.push(Brand.buildBrand(brand));
+    return res;
+  }
 
-    this.Brands.forEach(e => {
-      let pro : Product[] = [];
-      Object.entries(e["products"]).forEach(p => pro.push(Product.buildProduct(p[1])));
-      e["products"] = pro;
-    });
+  constructor(private apiService: ApiService) {
+    if(localStorage.getItem("brands") && JSON.parse(localStorage.getItem("brands")).length > 0)
+      this.Brands = this.parseJsonToBrands(JSON.parse(localStorage.getItem("brands")));
+    
+    this.apiService.getBrand().toPromise().then(async res => {
+      this.Brands = [];
+      for(let brand of res) {
+        let products = [];
+        await this.apiService.getProductByBrand(brand._id).toPromise().then((data) => {
+          for(let product of <[]>data)
+            products.push(Product.buildProduct(product, brand));
+        });
+        this.Brands.push(new Brand(brand.name, brand.url, products));
+      }
+    }).finally(() => localStorage.setItem("brands", JSON.stringify(this.Brands)));
   }
 }
 
@@ -76,20 +72,22 @@ export class Product {
   Description: string;
   imageURL: string;
   Discount : number;
+  brandName : string
 
-  constructor(Serial: string, Name: string, Price: number, Description: string, imageURL: string, Discount? : number) {
+  constructor(Serial: string, Name: string, Price: number, Description: string, imageURL: string, Discount? : number, brandName? : string) {
     this.Serial = Serial;
     this.Name = Name;
     this.Price = Price;
     this.Description = Description;
     this.imageURL = imageURL;
     this.Discount = Discount > 0 ? Discount : 0;
+    this.brandName = brandName;
   }
 
-  static buildProduct(obj) {
+  static buildProduct(obj, brand?) {
     if(obj.name) // came from db;
-      return new Product(obj.serial, obj.name, obj.price, obj.description, obj.imageURL, obj.discount > 0 ? obj.discount : 0)
-    return new Product(obj.Serial, obj.Name, obj.Price, obj.Description, obj.imageURL, obj.Discount > 0 ? obj.Discount : 0);
+      return new Product(obj.serial, obj.name, obj.price, obj.description, obj.imageURL, obj.discount > 0 ? obj.discount : 0, brand?.name)
+    return new Product(obj.Serial, obj.Name, obj.Price, obj.Description, obj.imageURL, obj.Discount > 0 ? obj.Discount : 0, brand?.name);
   } 
 
   getPrice() {
@@ -101,6 +99,12 @@ class Brand {
   name : string;
   url : string;
   products : Product[];
+
+  static buildBrand(obj) {
+    let products = [];
+    for(let p of obj.products) products.push(Product.buildProduct(p, obj));
+    return new Brand(obj.name, obj.url, products);
+  }
 
   constructor(name : string, url : string, products : Product[]) {
     this.name = name;

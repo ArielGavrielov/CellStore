@@ -16,7 +16,6 @@ import { ProductsComponent } from './products/products.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuardService as AuthGuard } from './auth/auth-guard.service';
-import { AuthModule } from './auth/auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -37,8 +36,7 @@ import { AuthModule } from './auth/auth/auth.module';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule,
-    AuthModule
+    ReactiveFormsModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

@@ -1,9 +1,8 @@
-.footer {
-    clear: both;
-    position: relative;
-    height: 200px;
-    margin-top: -200px;
-}
-.content {
-    height: 100%;
-}
+body {
+    padding-top: 5000px;
+  }
+  @media (max-width: 979px) {
+    body {
+      padding-top: 0px;
+    }
+  }

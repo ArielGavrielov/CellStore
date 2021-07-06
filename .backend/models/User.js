@@ -13,6 +13,11 @@ let User = new mongoose.Schema(
         password: {
             type: String,
             required: true
+        },
+        last_login: {
+            type: Date,
+            required: false,
+            default: new Date()
         }
     },
     {

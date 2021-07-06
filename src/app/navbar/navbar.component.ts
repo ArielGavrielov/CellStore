@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CartService } from '../sevices/cart.service';
 import { UsersService } from '../sevices/users.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { UsersService } from '../sevices/users.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(public usersService : UsersService) { }
+  constructor(public usersService : UsersService, public cartService : CartService) { }
 
   ngOnInit(): void {
   }

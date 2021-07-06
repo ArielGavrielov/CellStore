@@ -26,7 +26,7 @@
                         </ng-template>
                     </div>
                     <div class="card-body">
-                        <a class="btn btn-primary" style="margin: 5px;" [routerLink]="['/products', this.productsService.getBrandOfProductBySerial(product.Serial).name, product.Serial]">More Details</a>
+                        <a class="btn btn-primary" style="margin: 5px;" [routerLink]="['/products', product.brandName, product.Serial]">More Details</a>
                         <button type="button" class="btn btn-primary btn-md mr-1 mb-2" (click)="addToCart(product.Serial);"><i class="bi bi-cart-plus"></i>Add to cart</button>
                     </div>
                 </div>

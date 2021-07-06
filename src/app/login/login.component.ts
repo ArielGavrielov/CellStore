@@ -10,6 +10,7 @@ import { ApiService } from '../sevices/api-service.service';
 })
 export class LoginComponent implements OnInit {
   userNotFound : Boolean;
+  error : String;
   constructor(private apiService: ApiService, private usersService : UsersService, private router : Router) { }
 
   ngOnInit(): void {
@@ -32,13 +33,17 @@ export class LoginComponent implements OnInit {
   onSubmit(loginForm) {
     this.apiService.loginUser({email: loginForm.value.email, password: loginForm.value.password})
     .subscribe(data => {
+      console.log("DA");
       if(data.length == 0) this.userNotFound = true;
       else {
         this.usersService.setLoggedUser(new User(data.name, data.email, data.password));
-        //this.router.navigate(['/home']);
         this.userNotFound = false;
         return;
       }
+    }, ({error}) => {
+      this.userNotFound = true;
+      console.log(error);
+      this.error = error.message;
     });
   }
 }

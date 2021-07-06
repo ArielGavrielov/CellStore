@@ -24,7 +24,7 @@ export class CartService {
         .finally(() => {
           this.items.push(Item.createInstanceFromApi(product, item.quantity));
           this.updateTotal();
-          console.log("items", this.items);
+          console.log("cart items", this.items);
         });
       }
     });
@@ -33,23 +33,23 @@ export class CartService {
   addProduct(serial: string, quantity? : number) : boolean {
     let i = this.isInCart(serial);
     if(i != -1) {
-      if(this.items[i].quantity < 99) {
+      alert(this.changeQuantity(this.items[i], quantity ? quantity : 1))
+      /*if(this.items[i].quantity < 99) {
         if(quantity) {
           if(this.items[i].quantity + quantity < 99)
             this.items[i].quantity+=quantity;
           else
             this.items[i].quantity = 99;
-        }
-        else
+        } else
           this.items[i].quantity++;
 
         alert(this.items[i].product.Name + " quantity is updated to " + this.items[i].quantity + ".");
 
         this.apiService.addToCart(serial, this.items[i].quantity)
-        .then(data => console.log(data))
+        .then(data => console.log("changeQuantity", data))
         .catch(err => console.log(err));
       }
-      else alert(this.items[i].product.Name + " is already maximum quantity (" + this.items[i].quantity + ")");
+      else alert(this.items[i].product.Name + " is already maximum quantity (" + this.items[i].quantity + ")");*/
     }
     else {
       var product = this.productsService.getProductBySerial(serial);
@@ -63,7 +63,7 @@ export class CartService {
       this.items.push(item);
 
       this.apiService.addToCart(serial, item.quantity)
-      .then(data => console.log(data))
+      .then(data => console.log("add product", data))
       .catch(err => console.log(err));
 
       alert(product.Name + " added to cart. "+ "(quantity: "+item.quantity+")");
@@ -72,14 +72,15 @@ export class CartService {
     return true;
   }
 
-  changeQuantity(item : Item, n : number) {
-    const index: number = this.items.indexOf(item);
-    if(this.items[index].quantity + n >= 1 && this.items[index].quantity + n <= 99) {
-      this.items[index].quantity += n;
-      this.apiService.addToCart(this.items[index].product.Serial, this.items[index].quantity)
-      .then(res => console.log(res));
-    }
-    this.updateTotal();
+  changeQuantity(item : Item, n : number) : string {
+    if(item.quantity + n >= 1 && item.quantity + n <= 99) {
+      item.quantity += n;
+      this.apiService.addToCart(item.product.Serial, item.quantity)
+      .then(res => console.log("changeQuantity", res));
+      this.updateTotal();
+      return item.product.Name + " quantity is updated to " + item.quantity + "."
+    } else 
+      return item.product.Name + " maximum quantity is 99 and minimum is 1.";
   } 
 
   isInCart(serial : string) : number {
@@ -92,7 +93,7 @@ export class CartService {
     const index: number = this.items.indexOf(item);
     if (index !== -1) {
       this.apiService.deleteFromCart(this.items[index].product.Serial)
-      .then(data => console.log(data))
+      .then(data => console.log("remove from cart", data))
       .catch(err => console.log("delete err", err));
       this.items.splice(index, 1);
       this.updateTotal();

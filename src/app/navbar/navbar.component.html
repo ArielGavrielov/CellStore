@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" routerLink="/home">CellStore</a>
@@ -25,7 +25,10 @@
             <ul class="navbar-nav ml-auto" *ngIf="this.usersService.getLoggedUser() != null">
                 <span class="navbar-text font-weight-bold" style="padding-right: 20px;" [innerHTML]="this.usersService.helloUser()"></span>
                 <li class="nav-item">
-                <a class="nav-link" routerLink="/cart" routerLinkActive="activeStyle"><i class="bi bi-cart"></i></a>
+                <a class="nav-link" routerLink="/cart" routerLinkActive="activeStyle">
+                    <i class="bi bi-cart"></i>
+                    <span class='badge badge-warning' id='lblCartCount'>{{this.cartService.items.length}}</span>
+                </a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" routerLink="/" (click)="logout()">Logout</a>

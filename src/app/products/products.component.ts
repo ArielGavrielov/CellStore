@@ -20,7 +20,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.Brands = this.productsService.getBrands();
     this.allProducts = this.productsService.getAllProducts();
-
     this.sub = this.actRoute.params.subscribe(params => {
       if(params["brand"] != undefined && !params["brand"].includes("all")) {
         this.currentBrand = this.Brands.find(Brands => Brands.name == this.actRoute.snapshot.params["brand"]);
@@ -33,9 +32,12 @@ export class ProductsComponent implements OnInit, OnDestroy {
    });
   }
 
+  productBrand(serial) {
+    return this.productsService.getBrandOfProductBySerial(serial);
+  }
+
   addToCart(serial : string) {
     this.cartService.addProduct(serial);
-    console.log(this.cartService.items);
   }
 
   ngOnDestroy() {
