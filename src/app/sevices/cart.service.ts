@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Item } from '../Item';
 import { ApiService } from './api-service.service';
 import { ProductsService } from './products.service';
@@ -9,11 +10,9 @@ import { User, UsersService } from './users.service';
 })
 export class CartService {
   items : Item[] = [];
-  user : User;
   total : number;
 
-  constructor(private apiService: ApiService, private productsService : ProductsService, private usersService : UsersService) {
-    this.user = this.usersService.getLoggedUser();
+  constructor(private apiService: ApiService, private productsService : ProductsService, private router : Router) {
     // get user cart from db;
     this.apiService.getCart().subscribe(data => {
       for(let item of data) {
@@ -32,25 +31,8 @@ export class CartService {
 
   addProduct(serial: string, quantity? : number) : boolean {
     let i = this.isInCart(serial);
-    if(i != -1) {
+    if(i != -1)
       alert(this.changeQuantity(this.items[i], quantity ? quantity : 1))
-      /*if(this.items[i].quantity < 99) {
-        if(quantity) {
-          if(this.items[i].quantity + quantity < 99)
-            this.items[i].quantity+=quantity;
-          else
-            this.items[i].quantity = 99;
-        } else
-          this.items[i].quantity++;
-
-        alert(this.items[i].product.Name + " quantity is updated to " + this.items[i].quantity + ".");
-
-        this.apiService.addToCart(serial, this.items[i].quantity)
-        .then(data => console.log("changeQuantity", data))
-        .catch(err => console.log(err));
-      }
-      else alert(this.items[i].product.Name + " is already maximum quantity (" + this.items[i].quantity + ")");*/
-    }
     else {
       var product = this.productsService.getProductBySerial(serial);
       if(product == null) return false;
@@ -100,10 +82,30 @@ export class CartService {
     }  
   }
 
+  emptyCart() {
+    this.apiService.deleteFromCart()
+    .then(data => console.log("empty cart", data))
+    .catch(err => console.log("empty cart", err));
+    this.items = [];
+    this.updateTotal();
+  }
+
   updateTotal() {
     this.total = 0;
-    for(let item of this.items) {
+    for(let item of this.items)
       this.total += item.product.getPrice()*item.quantity;
-    }
+  }
+
+  Checkout() {
+    console.log("Checkout");
+    this.apiService.Checkout({items: this.items}).subscribe(
+      (next) => {
+        console.log(next);
+        this.router.navigate(['Thankyou'],{state: {orderId: next.orderId}});
+        this.emptyCart();
+      }, (error) => {
+        console.log(error);
+      }
+    )
   }
 }

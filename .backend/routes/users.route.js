@@ -18,19 +18,20 @@ router.post("/login", async (req,res) => {
     if(user) {
         const isValidPass = await bcrypt.compare(req.body.password, user.password);
         if(isValidPass) {
-            User.updateOne(user, {last_login: new Date()});
+            let date = new Date().toLocaleDateString('he-IL', { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+            await User.updateOne({_id: user._id}, {$set: {last_login: date}});
             res.status(200).json(user);
         } else 
-            res.status(400).json({ message: "Username/password is incorrect.1" });
+            res.status(400).json({ message: "Username/password is incorrect." });
     } else
-        res.status(400).status(400).json({message: "Username/password is incorrect."});
+        res.status(400).json({message: "Username/password is incorrect."});
 });
-
+/*
 router.get("/:email", (req,res) => {
     User.findOne({email: req.params.email}, (error,data) => {
         if(error) res.status(400).send({message: error.toString()});
         else res.send(data);
     });
-});
+});*/
 
 module.exports = router;

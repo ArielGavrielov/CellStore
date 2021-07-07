@@ -16,6 +16,7 @@ import { ProductsComponent } from './products/products.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuardService as AuthGuard } from './auth/auth-guard.service';
+import { ThankyouComponent } from './thankyou/thankyou.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { AuthGuardService as AuthGuard } from './auth/auth-guard.service';
     ContactComponent,
     ProductsComponent,
     ProductDetailComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ThankyouComponent
   ],
   imports: [
     BrowserModule,

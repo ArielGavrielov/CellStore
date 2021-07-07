@@ -8,6 +8,7 @@ const users = require('./routes/users.route');
 const products = require('./routes/products.route');
 const brands = require('./routes/brands.route');
 const cart = require('./routes/cart.route');
+const orders = require('./routes/orders.route');
 
 // connect to mongodb
 const mongodb = "mongodb://localhost:27017/CellStore";
@@ -27,12 +28,12 @@ app.use("/api/users", users);
 app.use("/api/products", products);
 app.use("/api/brands", brands);
 app.use("/api/cart", cart);
+app.use("/api/orders", orders);
 
-/*
+
 // front-end
-app.use(express.static(path.join(__dirname, "/dist/CellStore")));
+app.use(express.static(path.join(__dirname, "../dist/CellStore")));
 
 app.get("*", (req,res) => {
-    res.sendFile(path.join(__dirname, "/dist/CellStore/index.html"));
+    res.sendFile(path.join(__dirname, "../dist/CellStore/index.html"));
 });
-*/

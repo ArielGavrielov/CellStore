@@ -102,7 +102,9 @@ class Brand {
 
   static buildBrand(obj) {
     let products = [];
-    for(let p of obj.products) products.push(Product.buildProduct(p, obj));
+    for(let [ind, p] of Object.entries(obj.products)) {
+      products.push(Product.buildProduct(p, obj));
+    }
     return new Brand(obj.name, obj.url, products);
   }
 

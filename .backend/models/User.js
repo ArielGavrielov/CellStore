@@ -15,9 +15,9 @@ let User = new mongoose.Schema(
             required: true
         },
         last_login: {
-            type: Date,
+            type: String,
             required: false,
-            default: new Date()
+            default: new Date().toLocaleDateString('he-IL', { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' })
         }
     },
     {

@@ -9,7 +9,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { ProductsComponent } from './products/products.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthGuardService as AuthGuard } from './auth/auth-guard.service';
-import { pathToFileURL } from 'url';
+import { ThankyouComponent } from './thankyou/thankyou.component';
 
 const routes: Routes = [
   { path:"", component: LoginComponent },
@@ -21,6 +21,7 @@ const routes: Routes = [
   { path:"register", component: RegisterComponent},
   { path:"cart", component: CartComponent, canActivate: [AuthGuard]},
   { path:"contact", component: ContactComponent, canActivate: [AuthGuard]},
+  { path:"Thankyou", component: ThankyouComponent, canActivate: [AuthGuard]},
   { path: 'PageNotFound', component: PageNotFoundComponent },
   { path: '**', redirectTo: '/PageNotFound'},
 ];

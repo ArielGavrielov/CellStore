@@ -27,4 +27,8 @@ export class CartComponent implements OnInit {
   getTotal() {
     return this.cartService.total;
   }
+
+  checkoutButton() {
+    if(confirm("Are you sure you want to checkout?")) this.cartService.Checkout();
+  }
 }

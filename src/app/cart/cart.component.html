@@ -60,7 +60,7 @@
         <div class="btn-group btns-cart">
           <button type="button" class="btn btn-primary" [routerLink]="['/products']"><i
               class="fa fa-arrow-circle-left"></i> Continue Shopping</button>
-          <button type="button" class="btn btn-primary">Checkout <i class="fa fa-arrow-circle-right"></i></button>
+          <button type="button" class="btn btn-primary" (click)="this.checkoutButton();">Checkout <i class="fa fa-arrow-circle-right"></i></button>
         </div>
 
       </div>
