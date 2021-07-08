@@ -9,6 +9,7 @@ const products = require('./routes/products.route');
 const brands = require('./routes/brands.route');
 const cart = require('./routes/cart.route');
 const orders = require('./routes/orders.route');
+const contact = require('./routes/contact.route');
 
 // connect to mongodb
 const mongodb = "mongodb://localhost:27017/CellStore";
@@ -29,6 +30,7 @@ app.use("/api/products", products);
 app.use("/api/brands", brands);
 app.use("/api/cart", cart);
 app.use("/api/orders", orders);
+app.use("/api/contact", contact);
 
 
 // front-end

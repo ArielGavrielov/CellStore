@@ -21,17 +21,17 @@ router.post("/login", async (req,res) => {
             let date = new Date().toLocaleDateString('he-IL', { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
             await User.updateOne({_id: user._id}, {$set: {last_login: date}});
             res.status(200).json(user);
-        } else 
+        } else
             res.status(400).json({ message: "Username/password is incorrect." });
     } else
         res.status(400).json({message: "Username/password is incorrect."});
 });
-/*
+
 router.get("/:email", (req,res) => {
     User.findOne({email: req.params.email}, (error,data) => {
         if(error) res.status(400).send({message: error.toString()});
         else res.send(data);
     });
-});*/
+});
 
 module.exports = router;

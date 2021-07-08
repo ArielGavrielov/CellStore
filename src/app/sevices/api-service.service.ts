@@ -12,7 +12,8 @@ export class ApiService {
     products: "products/",
     brands: "brands/",
     cart: "cart/",
-    orders: "orders/"
+    orders: "orders/",
+    contact: "contact/"
   }
 
   headers = {
@@ -95,5 +96,11 @@ export class ApiService {
   // CHECKOUT API //
   Checkout(body: Object) : Observable<any> {
     return this.http.post(this.urlRoutes.baseURL + this.urlRoutes.orders + localStorage.getItem("loggedUserId"), body, {headers: this.headers});
+  }
+
+  // CONTACT API //
+  ContactUs(body: Object) : Observable<any> {
+    body["userID"] = localStorage.getItem("loggedUserId");
+    return this.http.post(this.urlRoutes.baseURL + this.urlRoutes.contact, body, {headers: this.headers});
   }
 }
