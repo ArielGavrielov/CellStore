@@ -16,6 +16,8 @@ const mongodb = "mongodb://localhost:27017/CellStore";
 mongoose.connect(mongodb, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false});
 
 const app = express();
+
+// For debugging
 app.use(cors({origin: 'http://localhost:4200'}));
 
 app.listen(8000, () => console.log("Server started listening port 8000"));
