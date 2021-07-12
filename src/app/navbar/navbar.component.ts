@@ -13,9 +13,4 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  logout() {
-    this.usersService.setLoggedUser(null);
-    location.reload();
-  }
 }

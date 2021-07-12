@@ -1,0 +1,8 @@
+<div class="col-sm row justify-content-center">
+    <div class="col-sm border text-center" style="margin: 10px;" *ngFor="let message of this.messages">
+        <div class="card-body">
+            <h5 class="card-title">{{message.subject}}</h5>
+            <h6>{{message.message}}</h6>
+        </div>
+    </div>
+</div>

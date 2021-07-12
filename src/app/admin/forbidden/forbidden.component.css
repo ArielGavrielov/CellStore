@@ -1,0 +1,21 @@
+body {
+  color: black;
+}
+    
+h1, code {
+  color: red;
+}
+
+h6 {
+  color: red;
+  text-decoration: underline;
+}
+
+div.middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+    

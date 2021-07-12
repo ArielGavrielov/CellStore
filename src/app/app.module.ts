@@ -17,6 +17,11 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuardService as AuthGuard } from './auth/auth-guard.service';
 import { ThankyouComponent } from './thankyou/thankyou.component';
+import { AddProductsComponent } from './admin/add-products/add-products.component';
+import { MessagesComponent } from './admin/messages/messages.component';
+import { DashComponent } from './admin/dash/dash.component';
+import { AuthGuardAdminService as AuthAdminGuard } from './auth/auth-guard-admin.service';
+import { ForbiddenComponent } from './admin/forbidden/forbidden.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +36,11 @@ import { ThankyouComponent } from './thankyou/thankyou.component';
     ProductsComponent,
     ProductDetailComponent,
     PageNotFoundComponent,
-    ThankyouComponent
+    ThankyouComponent,
+    AddProductsComponent,
+    MessagesComponent,
+    DashComponent,
+    ForbiddenComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +49,7 @@ import { ThankyouComponent } from './thankyou/thankyou.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard, AuthAdminGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

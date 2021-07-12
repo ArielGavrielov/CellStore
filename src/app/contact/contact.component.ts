@@ -34,6 +34,5 @@ export class ContactComponent implements OnInit {
       email : {value:this.loggedUser.email, disabled:true},
     });
     alert("Thank you for your message");
-    console.log(this.contactSerive.getContacts());
   }
 }

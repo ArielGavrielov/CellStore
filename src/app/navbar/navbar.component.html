@@ -12,6 +12,9 @@
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/contact" routerLinkActive="activeStyle">Contact</a>
                     </li>
+                    <li class="nav-item" *ngIf="this.usersService.getLoggedUser().isAdmin">
+                        <a class="nav-link" routerLink="/admin" routerLinkActive="activeStyle">Admin Dash</a>
+                    </li>
                 </ng-container>
                 <ng-template #notLogged>
                     <li class="nav-item">
@@ -31,7 +34,7 @@
                 </a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" routerLink="/" (click)="logout()">Logout</a>
+                <a class="nav-link" href="/" (click)="this.usersService.setLoggedUser(null)">Logout</a>
                 </li>
             </ul>
 

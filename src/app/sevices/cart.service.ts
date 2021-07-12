@@ -14,19 +14,21 @@ export class CartService {
 
   constructor(private apiService: ApiService, private productsService : ProductsService, private router : Router) {
     // get user cart from db;
-    this.apiService.getCart().subscribe(data => {
-      for(let item of data) {
-        var product : any;
-        this.apiService.getProductByObjectId(item.productId).toPromise()
-        .then(p => {product = p})
-        .catch(err => console.log(err))
-        .finally(() => {
-          this.items.push(Item.createInstanceFromApi(product, item.quantity));
-          this.updateTotal();
-          console.log("cart items", this.items);
-        });
-      }
-    });
+    if(localStorage.getItem("loggedUserId")) {
+      this.apiService.getCart().subscribe(data => {
+        for(let item of data) {
+          var product : any;
+          this.apiService.getProductByObjectId(item.productId).toPromise()
+          .then(p => {product = p})
+          .catch(err => console.log(err))
+          .finally(() => {
+            this.items.push(Item.createInstanceFromApi(product, item.quantity));
+            this.updateTotal();
+            console.log("cart items", this.items);
+          });
+        }
+      }, error => console.log("get cart error", error));
+    }
   }
 
   addProduct(serial: string, quantity? : number) : boolean {
@@ -46,7 +48,7 @@ export class CartService {
 
       this.apiService.addToCart(serial, item.quantity)
       .then(data => console.log("add product", data))
-      .catch(err => console.log(err));
+      .catch(err => console.log("add product", err));
 
       alert(product.Name + " added to cart. "+ "(quantity: "+item.quantity+")");
     }

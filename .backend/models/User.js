@@ -14,6 +14,9 @@ let User = new mongoose.Schema(
             type: String,
             required: true
         },
+        isAdmin: {
+            type: Boolean
+        },
         last_login: {
             type: String,
             required: false,

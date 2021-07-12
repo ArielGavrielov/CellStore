@@ -1,0 +1,15 @@
+<div class="d-flex">
+    <div class="p-2" style="margin: 20px;">
+        <div class="ml-auto justify-content-start">
+            <h2>Dashboard</h2>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a class="nav-link" [routerLink]="['messages']" routerLinkActive="activeStyle">Messages</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+        <div class="p-2 flex-fill">
+            <router-outlet></router-outlet>
+        </div>
+</div>

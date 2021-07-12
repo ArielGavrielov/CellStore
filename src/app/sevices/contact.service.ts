@@ -6,18 +6,18 @@ import { ApiService } from './api-service.service';
 })
 export class ContactService {
   Contacts : Contact[] = [];
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService) {}
+
   addMessage(name : string, email : string, subject : string, message : string) {
     let contact = new Contact(name,email,subject,message);
-    this.Contacts.push(contact);
-    this.apiService.ContactUs(contact).subscribe(data => {
+
+    this.apiService.ContactUs(contact).toPromise().then(data => {
       console.log(data);
     }, error => {
       console.log(error);
     });
-  }
-  getContacts() {
-    return this.Contacts;
+
+    this.Contacts.push(contact);
   }
 }
 

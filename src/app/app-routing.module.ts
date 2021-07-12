@@ -10,6 +10,10 @@ import { ProductsComponent } from './products/products.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthGuardService as AuthGuard } from './auth/auth-guard.service';
 import { ThankyouComponent } from './thankyou/thankyou.component';
+import { DashComponent } from './admin/dash/dash.component';
+import { AuthGuardAdminService as AuthAdminGuard } from './auth/auth-guard-admin.service';
+import { ForbiddenComponent } from './admin/forbidden/forbidden.component';
+import { MessagesComponent } from './admin/messages/messages.component';
 
 const routes: Routes = [
   { path:"", component: LoginComponent },
@@ -22,6 +26,12 @@ const routes: Routes = [
   { path:"cart", component: CartComponent, canActivate: [AuthGuard]},
   { path:"contact", component: ContactComponent, canActivate: [AuthGuard]},
   { path:"Thankyou", component: ThankyouComponent, canActivate: [AuthGuard]},
+  // ADMIN //
+  { path:"admin", component: DashComponent, canActivate: [AuthAdminGuard], children: [
+    { path:"messages", component: MessagesComponent},
+  ]},
+  { path: 'Forbidden', component: ForbiddenComponent },
+  // END //
   { path: 'PageNotFound', component: PageNotFoundComponent },
   { path: '**', redirectTo: '/PageNotFound'},
 ];

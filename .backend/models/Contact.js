@@ -25,6 +25,10 @@ let Contact = new mongoose.Schema(
         isAnswered: {
           type: Boolean,
           default: false
+        },
+        time: {
+          type: String,
+          default: new Date().toLocaleDateString('he-IL', { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' })
         }
     },
     {

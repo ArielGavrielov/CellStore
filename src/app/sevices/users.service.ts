@@ -39,7 +39,7 @@ export class UsersService {
   } 
   getLoggedUser() {
     if(this.loggedUser) return this.loggedUser;
-    if(localStorage.getItem("loggedUser")) this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+    if(localStorage.getItem("loggedUser")) this.loggedUser = User.getUserFromLS(JSON.parse(localStorage.getItem("loggedUser")));
     return this.loggedUser;
   }
 
@@ -61,13 +61,18 @@ export class User {
   name: string;
   email: string;
   password: string;
+  isAdmin: Boolean;
 
-  constructor(name : string, email : string, password : string) {
+  constructor(name : string, email : string, password : string, isAdmin? : Boolean) {
     this.name = name;
     this.email = email;
     this.password = password;
+    this.isAdmin = isAdmin;
   }
   
+  static getUserFromLS(ls) : User {
+    return new User(ls.name, ls.email, ls.password, ls.isAdmin);
+  }
 
   //getCart() { return this.cart; }
 }

@@ -33,16 +33,15 @@ export class LoginComponent implements OnInit {
   onSubmit(loginForm) {
     this.apiService.loginUser({email: loginForm.value.email, password: loginForm.value.password})
     .subscribe(data => {
-      console.log("DA");
       if(data.length == 0) this.userNotFound = true;
       else {
-        this.usersService.setLoggedUser(new User(data.name, data.email, data.password));
+        this.usersService.setLoggedUser(new User(data.name, data.email, data.password, data.isAdmin));
         this.userNotFound = false;
         return;
       }
     }, ({error}) => {
       this.userNotFound = true;
-      console.log(error);
+      console.log("login error", error);
       this.error = error.message;
     });
   }

@@ -32,7 +32,6 @@ app.use("/api/cart", cart);
 app.use("/api/orders", orders);
 app.use("/api/contact", contact);
 
-
 // front-end
 app.use(express.static(path.join(__dirname, "../dist/CellStore")));
 

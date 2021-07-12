@@ -103,4 +103,8 @@ export class ApiService {
     body["userID"] = localStorage.getItem("loggedUserId");
     return this.http.post(this.urlRoutes.baseURL + this.urlRoutes.contact, body, {headers: this.headers});
   }
+
+  getContacts() : Observable<any> {
+    return this.http.get(this.urlRoutes.baseURL + this.urlRoutes.contact, {headers: this.headers});
+  }
 }
